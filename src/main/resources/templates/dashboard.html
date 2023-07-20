@@ -14,7 +14,7 @@
         <p class="mb-5">Gestion</p>
         <div class="container-xxl">
             <div class="row gap-3 mb-3">
-                <div class="col formulario-carga-csv bg-white-subtle p-5 rounded">
+                <section class="col formulario-carga-csv bg-white-subtle p-5 rounded">
                     <h3 class="text-primary mb-5">Cargar archivo CSV</h3>
                     <form th:action="@{/gestion/procesar-csv}" method="post" enctype="multipart/form-data">
                         <div class="form-floating mb-2">
@@ -25,55 +25,59 @@
                         <button type="submit" class="btn btn-primary mt-3">ACEPTAR</button>
                     </form>
                     <p th:if="${success}" th:text="${success}" class="text-success fw-bold mt-3 fs-4"></p>
-                </div>
-                <div class="col datos-csv bg-white-subtle p-5 rounded">
+                </section>
+                <section class="col datos-csv bg-white-subtle p-5 rounded">
                     <div class="contenido-csv">
                         <h3 class="text-primary mb-4">Listado de alumnos actual</h3>
                         <p th:if="${notfound}" th:text="${notfound}"></p>
-                        <table class="table overflow-auto" th:if="${estudiantes}">
+                        <div style="max-height: 400px; overflow: auto;">
+                            <table class="table" th:if="${estudiantes}">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">LU</th>
+                                    <th scope="col">APELLIDO</th>
+                                    <th scope="col">NOMBRES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="estudiante : ${estudiantes}">
+                                        <th scope="row" th:text="${estudiante.legajo}"></th>
+                                        <td th:text="${estudiante.apellido}"></td>
+                                        <td th:text="${estudiante.nombres}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="row">
+                <section class="col registro-asistencia bg-white-subtle p-5 rounded">
+                    <h3 class="text-primary">Registro de asistencia</h3>
+                    <a th:href="@{/gestion/registro-asistencia}" class="btn btn-primary mb-3">Solicitar registro de hoy</a>
+                    <div style="max-height: 400px; overflow: auto;">
+                        <table class="table" th:if="${registroAsistencia}" style="max-height: 400px; overflow: auto;">
                             <thead>
                                 <tr>
                                 <th scope="col">LU</th>
                                 <th scope="col">APELLIDO</th>
                                 <th scope="col">NOMBRES</th>
+                                <th scope="col">FECHA</th>
+                                <th scope="col">ASISTENCIA</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="estudiante : ${estudiantes}">
-                                    <th scope="row" th:text="${estudiante.legajo}"></th>
-                                    <td th:text="${estudiante.apellido}"></td>
-                                    <td th:text="${estudiante.nombres}"></td>
+                                <tr th:each="registro : ${registroAsistencia}">
+                                    <th scope="row" th:text="${registro.persona.legajo}"></th>
+                                    <td th:text="${registro.persona.apellido}"></td>
+                                    <td th:text="${registro.persona.nombres}"></td>
+                                    <td th:text="${#dates.format(registro.fecha, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                                    <td th:text="${registro.asistio}"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col registro-asistencia bg-white-subtle p-5 rounded">
-                    <h3 class="text-primary">Registro de asistencia</h3>
-                    <a th:href="@{/gestion/registro-asistencia}" class="btn btn-primary mb-3">Solicitar registro de hoy</a>
-                    <table class="table overflow-auto" th:if="${registroAsistencia}">
-                        <thead>
-                            <tr>
-                            <th scope="col">LU</th>
-                            <th scope="col">APELLIDO</th>
-                            <th scope="col">NOMBRES</th>
-                            <th scope="col">FECHA</th>
-                            <th scope="col">ASISTENCIA</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="registro : ${registroAsistencia}">
-                                <th scope="row" th:text="${registro.persona.legajo}"></th>
-                                <td th:text="${registro.persona.apellido}"></td>
-                                <td th:text="${registro.persona.nombres}"></td>
-                                <td th:text="${#dates.format(registro.fecha, 'dd/MM/yyyy HH:mm:ss')}"></td>
-                                <td th:text="${registro.asistio}"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                </section>
             </div>
         </div>
     </main>

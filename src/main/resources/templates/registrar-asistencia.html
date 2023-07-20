@@ -11,7 +11,7 @@
 <body>
     <main class="container vw-100 vh-100 d-flex flex-column justify-content-center align-items-center">
         <h1 class="mb-5">Álgebra II</h1>
-        <div class="asistencia p-5 rounded" th:unless="${outOfDate}">
+        <section class="asistencia p-5 rounded" th:unless="${outOfDate}">
             <h3 class="text-primary">Registra tu asistencia</h3>
             <p class="mb-5">Podras registrar tu asistencia de <span th:text="${horaInicio}"></span> hs. a <span th:text="${horaFin}"></span>:59 hs.</p>
             <form th:action="@{/asistencia/registrar}" method="get">
@@ -23,7 +23,7 @@
                 <button type="submit" class="btn btn-primary mt-3">ACEPTAR</button>
             </form>
             <p th:if="${success}" th:text="${success}" class="text-success fw-bold mt-3 fs-4"></p>
-        </div>
+        </section>
         <div th:if="${outOfDate}" class="out-of-date bg-danger-subtle p-5 rounded text-center">
             <p class=" text-danger fs-2">Fuera de hora</p>
             <p class="mb-5">Tu asistencia solo se puede registrar de <span th:text="${horaInicio}"></span> hs. a <span th:text="${horaFin}"></span>:59 hs.</p>
