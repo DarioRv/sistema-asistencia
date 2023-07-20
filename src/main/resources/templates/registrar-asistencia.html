@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <main class="container vw-100 vh-100 d-flex flex-column justify-content-center align-items-center">
+        <h1 class="mb-5">Álgebra II</h1>
+        <div class="asistencia p-5 rounded" th:unless="${outOfDate}">
+            <h3 class="text-primary">Registra tu asistencia</h3>
+            <p class="mb-5">Podras registrar tu asistencia de <span th:text="${horaInicio}"></span> hs. a <span th:text="${horaFin}"></span>:59 hs.</p>
+            <form th:action="@{/asistencia/registrar}" method="get">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" name="legajo" id="legajo" placeholder="Introduce tu dni">
+                    <label for="legajo">Legajo</label>
+                </div>
+                <p th:if="${error}" th:text="${error}" class="text-danger fw-bold"></p>
+                <button type="submit" class="btn btn-primary mt-3">ACEPTAR</button>
+            </form>
+            <p th:if="${success}" th:text="${success}" class="text-success fw-bold mt-3 fs-4"></p>
+        </div>
+        <div th:if="${outOfDate}" class="out-of-date bg-danger-subtle p-5 rounded text-center">
+            <p class=" text-danger fs-2">Fuera de hora</p>
+            <p class="mb-5">Tu asistencia solo se puede registrar de <span th:text="${horaInicio}"></span> hs. a <span th:text="${horaFin}"></span>:59 hs.</p>
+        </div>
+        <div class="access-denied bg-danger-subtle p-2 rounded text-center mt-3" th:if="${accessDenied}">
+            <p class="text-danger m-0 fw-bold">Acceso denegado, no se pueden enviar peticiones fuera del horario</p>
+        </div>
+    </main>
+</body>
+</html>
