@@ -1,5 +1,6 @@
 # Sistema de asistencia
 ![Home](src/main/resources/static/image/home.png)
+![GitHub last commit](https://img.shields.io/github/last-commit/DarioRv/sistema-asistencia?logo=github&style=flat-square)
 
 ## Descripción
 Sistema de asistencia destinado a la gestión de asistencia de los alumnos a las clases de la universidad.
