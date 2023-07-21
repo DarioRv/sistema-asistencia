@@ -3,24 +3,24 @@ package ar.edu.unju.fi.registroasistencia.clases;
 import java.util.Date;
 
 public class RegistroAsistencia {
-    private Persona persona;
+    private Estudiante persona;
     private Date fecha;
     private boolean asistio;
 
     public RegistroAsistencia() {
     }
 
-    public RegistroAsistencia(Persona persona, Date fecha, boolean asistio) {
+    public RegistroAsistencia(Estudiante persona, Date fecha, boolean asistio) {
         this.persona = persona;
         this.fecha = fecha;
         this.asistio = asistio;
     }
 
-    public Persona getPersona() {
+    public Estudiante getPersona() {
         return persona;
     }
 
-    public void setPersona(Persona persona) {
+    public void setPersona(Estudiante persona) {
         this.persona = persona;
     }
 
@@ -32,7 +32,7 @@ public class RegistroAsistencia {
         this.fecha = fecha;
     }
 
-    public boolean isAsistio() {
+    public boolean getAsistio() {
         return asistio;
     }
 

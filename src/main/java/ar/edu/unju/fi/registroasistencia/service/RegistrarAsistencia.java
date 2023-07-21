@@ -1,7 +1,6 @@
 package ar.edu.unju.fi.registroasistencia.service;
 
 import ar.edu.unju.fi.registroasistencia.clases.Estudiante;
-import ar.edu.unju.fi.registroasistencia.clases.Persona;
 import ar.edu.unju.fi.registroasistencia.clases.RegistroAsistencia;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +26,8 @@ public class RegistrarAsistencia implements IRegistrarAsistencia {
         return HORA_FIN;
     }
     @Override
-    public void registrarAsistencia(Persona persona) {
-        RegistroAsistencia registroAsistencia = new RegistroAsistencia(persona, new Date(), true);
+    public void registrarAsistencia(Estudiante estudiante) {
+        RegistroAsistencia registroAsistencia = new RegistroAsistencia(estudiante, new Date(), true);
         registroAsistencias.add(registroAsistencia);
     }
 

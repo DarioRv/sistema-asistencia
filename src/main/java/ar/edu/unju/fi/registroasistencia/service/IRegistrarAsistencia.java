@@ -9,7 +9,7 @@ import java.util.List;
 public interface IRegistrarAsistencia {
     public int getHoraInicio();
     public int getHoraFin();
-    public void registrarAsistencia(Persona persona);
+    public void registrarAsistencia(Estudiante estudiante);
     public List<Estudiante> getListaEstudiantes();
     public void setListaEstudiantes(List<Estudiante> lista);
     public List<RegistroAsistencia> getRegistroAsistencia();

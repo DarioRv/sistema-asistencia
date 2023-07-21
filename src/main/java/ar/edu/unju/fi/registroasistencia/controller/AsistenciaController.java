@@ -48,6 +48,10 @@ public class AsistenciaController {
     @GetMapping("/registrar")
     public ModelAndView registrarAsistencia(@RequestParam String legajo) {
         ModelAndView modelAndView = new ModelAndView("registrar-asistencia");
+        List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
+        if (listaAntigua.size() != 0) {
+            registrarAsistencia.setListaEstudiantes(listaAntigua);
+        }
 
         Date fechaActual = new Date();
         boolean isOutOfDate = !(fechaActual.getHours() >= registrarAsistencia.getHoraInicio() && fechaActual.getHours() < registrarAsistencia.getHoraFin());

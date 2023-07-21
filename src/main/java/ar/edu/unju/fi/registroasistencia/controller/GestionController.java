@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/gestion")
@@ -43,7 +46,7 @@ public class GestionController {
                 registrarAsistencia.setListaEstudiantes(listaAntigua);
             }
             else {
-                modelAndView.addObject("notfound", "No hay archivo cargado");
+                modelAndView.addObject("csvnotfound", "No hay archivo cargado");
             }
         }
         else {
@@ -51,19 +54,6 @@ public class GestionController {
             modelAndView.addObject("autherror", "No se pudo autenticar");
         }
         return modelAndView;
-    }
-
-    @GetMapping("/cargar-alumnos")
-    public String getPageCargarDatosAlumnos(Model model) {
-        List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
-        if (listaAntigua.size() != 0) {
-            model.addAttribute("estudiantes", listaAntigua);
-            registrarAsistencia.setListaEstudiantes(listaAntigua);
-        }
-        else {
-            model.addAttribute("notfound", "No hay archivo cargado");
-        }
-        return "carga-datos";
     }
 
     @PostMapping("/procesar-csv")
@@ -90,7 +80,42 @@ public class GestionController {
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("registroAsistencia", registrarAsistencia.getRegistroAsistencia());
         List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
-        modelAndView.addObject("estudiantes", listaAntigua);
+        if (listaAntigua.size() != 0) {
+            modelAndView.addObject("estudiantes", listaAntigua);
+            registrarAsistencia.setListaEstudiantes(listaAntigua);
+        }
+        else {
+            modelAndView.addObject("csvnotfound", "No hay archivo cargado");
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("/generarar-registro-csv")
+    public ModelAndView generarRegistroAsistenciaCsv() {
+        ModelAndView modelAndView = new ModelAndView("dashboard");
+        modelAndView.addObject("registroAsistencia", registrarAsistencia.getRegistroAsistencia());
+        List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
+        if (listaAntigua.size() != 0) {
+            modelAndView.addObject("estudiantes", listaAntigua);
+            registrarAsistencia.setListaEstudiantes(listaAntigua);
+        }
+        else {
+            modelAndView.addObject("csvnotfound", "No hay archivo cargado");
+        }
+
+        Date fecha = new Date();
+        System.out.println(fecha.getHours() + ">=" + registrarAsistencia.getHoraFin());
+        System.out.println(fecha.getHours() >= registrarAsistencia.getHoraFin());
+        if (fecha.getHours() >= registrarAsistencia.getHoraFin()) {
+            csvReader.escribirCsv(registrarAsistencia.getRegistroAsistencia());
+            modelAndView.addObject("csvGenerated", true);
+            String csvName = csvReader.getLastReportSave();
+            modelAndView.addObject("csvName", csvName);
+        }
+        else {
+            modelAndView.addObject("csvGenerated", false);
+            modelAndView.addObject("horaFin", registrarAsistencia.getHoraFin());
+        }
         return modelAndView;
     }
 }

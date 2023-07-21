@@ -9,7 +9,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <main class="container-xxl vw-100 vh-100 d-flex flex-column justify-content-center align-items-center">
+    <main class="container-xxl vw-100 d-flex flex-column justify-content-center align-items-center mb-5">
         <h1>Álgebra II</h1>
         <p class="mb-5">Gestion</p>
         <div class="container-xxl">
@@ -29,7 +29,7 @@
                 <section class="col datos-csv bg-white-subtle p-5 rounded">
                     <div class="contenido-csv">
                         <h3 class="text-primary mb-4">Listado de alumnos actual</h3>
-                        <p th:if="${notfound}" th:text="${notfound}"></p>
+                        <p th:if="${csvnotfound}" th:text="${csvnotfound}"></p>
                         <div style="max-height: 400px; overflow: auto;">
                             <table class="table" th:if="${estudiantes}">
                                 <thead>
@@ -54,7 +54,13 @@
             <div class="row">
                 <section class="col registro-asistencia bg-white-subtle p-5 rounded">
                     <h3 class="text-primary">Registro de asistencia</h3>
-                    <a th:href="@{/gestion/registro-asistencia}" class="btn btn-primary mb-3">Solicitar registro de hoy</a>
+                    <div class="actions d-flex gap-3 align-items-center mb-3">
+                        <a th:href="@{/gestion/registro-asistencia}" class="btn btn-primary">Ver registro de hoy</a>
+                        <a th:href="@{/gestion/generarar-registro-csv}" class="btn btn-primary ">Solicitar registro de hoy</a>
+                        <span th:if="${csvGenerated == false}" class="bg-danger-subtle text-danger p-1 rounded fw-bold">Podrás solicitar el registro a <span th:text="${horaFin}"></span> hs.</span>
+                        <span th:if="${csvGenerated}" class="bg-success-subtle text-success p-1 rounded fw-bold">El registro se ha generado</span>
+                        <a th:if="${csvGenerated}" th:href="@{'/saves/'+${csvName}}" class="btn btn-primary" download="">Descargar CSV</a>
+                    </div>
                     <div style="max-height: 400px; overflow: auto;">
                         <table class="table" th:if="${registroAsistencia}" style="max-height: 400px; overflow: auto;">
                             <thead>
