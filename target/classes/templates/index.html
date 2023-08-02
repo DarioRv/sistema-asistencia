@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase Álgebra II</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <main class="container vw-100 vh-100 d-flex flex-column justify-content-center align-items-center gap-3">
+        <section class="buttons d-flex gap-3">
+            <a th:href="@{/asistencia/formulario-asistencia}" class="btn btn-primary">Registrar mi asistencia</a>
+            <a th:href="@{/gestion/login}" class="btn btn-outline-primary">Ingresar como profesor</a>
+        </section>
+        <section class="alerta bg-warning-subtle p-3 rounded">
+            <p class="text-warning fw-bold m-0">Evite hacer mal uso o acceder a una sección sin tener los privilegios. Todos los movimientos quedan registrados en auditoría.</p>
+        </section>
+    </main>
+</body>
+</html>

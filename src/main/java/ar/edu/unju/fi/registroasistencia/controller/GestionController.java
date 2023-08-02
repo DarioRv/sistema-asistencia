@@ -37,25 +37,49 @@ public class GestionController {
 
     @PostMapping("/login")
     public ModelAndView login(@RequestParam String passwd) {
-        ModelAndView modelAndView;
-        if (passwd.equals(PASSWD)) {
-            modelAndView  = new ModelAndView("dashboard");
-            List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
-            if (listaAntigua.size() != 0) {
-                modelAndView.addObject("estudiantes", listaAntigua);
-                registrarAsistencia.setListaEstudiantes(listaAntigua);
-            }
-            else {
-                modelAndView.addObject("csvnotfound", "No hay archivo cargado");
-            }
-        }
-        else {
-            modelAndView  = new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("inicio");
+        if (!passwd.equals(PASSWD)) {
+            modelAndView.setViewName("login");
             modelAndView.addObject("autherror", "No se pudo autenticar");
         }
         return modelAndView;
     }
 
+    @GetMapping("/alumnos")
+    public ModelAndView getAlumnos(){
+        List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
+        ModelAndView modelAndView = new ModelAndView("alumnos");
+        if (listaAntigua.size() != 0) {
+            modelAndView.addObject("estudiantes", listaAntigua);
+            registrarAsistencia.setListaEstudiantes(listaAntigua);
+        }
+        else {
+            modelAndView.addObject("csvnotfound", "No hay archivo cargado");
+        }
+        return modelAndView;
+    }
+    
+    @GetMapping("/horarios")
+    public ModelAndView gestionHorarios(){
+        ModelAndView modelAndView = new ModelAndView("horarios");
+        modelAndView.addObject("horaIni", registrarAsistencia.getHoraInicio());
+        modelAndView.addObject("horaFin", registrarAsistencia.getHoraFin());
+        return modelAndView;
+    }
+
+    @GetMapping("/guardar-horarios")
+    public ModelAndView guardarHorarios(@RequestParam("ini") String ini, @RequestParam("fin") String fin){
+        ModelAndView modelAndView = new ModelAndView("horarios");
+        if(ini.isEmpty() || fin.isEmpty() ){
+            modelAndView.addObject("error", true);
+        }else{
+            registrarAsistencia.setHorario(Integer.parseInt(ini), Integer.parseInt(fin));
+        }
+        modelAndView.addObject("horaIni", registrarAsistencia.getHoraInicio());
+        modelAndView.addObject("horaFin", registrarAsistencia.getHoraFin());
+        return modelAndView;
+    }
+    
     @PostMapping("/procesar-csv")
     public ModelAndView cargarDatosAlumnos(@RequestParam MultipartFile file) throws Exception {
         ModelAndView modelAndView = new ModelAndView("dashboard");
@@ -77,7 +101,7 @@ public class GestionController {
 
     @GetMapping("/registro-asistencia")
     public ModelAndView getRegistroAsistencia() {
-        ModelAndView modelAndView = new ModelAndView("dashboard");
+        ModelAndView modelAndView = new ModelAndView("inicio");
         modelAndView.addObject("registroAsistencia", registrarAsistencia.getRegistroAsistencia());
         List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
         if (listaAntigua.size() != 0) {
@@ -92,7 +116,7 @@ public class GestionController {
 
     @GetMapping("/generarar-registro-csv")
     public ModelAndView generarRegistroAsistenciaCsv() {
-        ModelAndView modelAndView = new ModelAndView("dashboard");
+        ModelAndView modelAndView = new ModelAndView("inicio");
         modelAndView.addObject("registroAsistencia", registrarAsistencia.getRegistroAsistencia());
         List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
         if (listaAntigua.size() != 0) {

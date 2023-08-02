@@ -13,18 +13,25 @@ public class RegistrarAsistencia implements IRegistrarAsistencia {
     List<Estudiante> listaEstudiantes = new ArrayList<Estudiante>();
     List<RegistroAsistencia> registroAsistencias = new ArrayList<RegistroAsistencia>();
 
-    public static final int HORA_INICIO = 01;
-    public static final int HORA_FIN = 22;
+    private int horaInicio = 01;
+    private int horaFin = 22;
 
     @Override
     public int getHoraInicio() {
-        return HORA_INICIO;
+        return horaInicio;
     }
 
     @Override
     public int getHoraFin() {
-        return HORA_FIN;
+        return horaFin;
     }
+
+    @Override
+    public void setHorario(int inicio,int fin){
+        this.horaInicio= inicio;
+        this.horaFin= fin;
+    }
+
     @Override
     public void registrarAsistencia(Estudiante estudiante) {
         RegistroAsistencia registroAsistencia = new RegistroAsistencia(estudiante, new Date(), true);

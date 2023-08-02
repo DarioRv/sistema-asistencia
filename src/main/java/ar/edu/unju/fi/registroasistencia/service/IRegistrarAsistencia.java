@@ -9,6 +9,7 @@ import java.util.List;
 public interface IRegistrarAsistencia {
     public int getHoraInicio();
     public int getHoraFin();
+    public void setHorario(int inicio,int fin);
     public void registrarAsistencia(Estudiante estudiante);
     public List<Estudiante> getListaEstudiantes();
     public void setListaEstudiantes(List<Estudiante> lista);
