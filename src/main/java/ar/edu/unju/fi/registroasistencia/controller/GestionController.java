@@ -58,6 +58,21 @@ public class GestionController {
         }
         return modelAndView;
     }
+
+    @GetMapping("/test")
+    public ModelAndView gestionClase(){
+        ModelAndView modelAndView = new ModelAndView("evento");
+        modelAndView.addObject("registroAsistencia", registrarAsistencia.getRegistroAsistencia());
+        List<Estudiante> listaAntigua = csvReader.procesarCsv(uploadFile.getPath("alumnos.csv").toString());
+        if (listaAntigua.size() != 0) {
+            modelAndView.addObject("estudiantes", listaAntigua);
+            registrarAsistencia.setListaEstudiantes(listaAntigua);
+        }
+        else {
+            modelAndView.addObject("csvnotfound", "No hay archivo cargado");
+        }
+        return modelAndView;
+    }
     
     @GetMapping("/horarios")
     public ModelAndView gestionHorarios(){
